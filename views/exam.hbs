@@ -1,0 +1,32 @@
+{{#if course.tasks.tickets}}  
+    <form action="exam" method="POST">
+<div class="row">
+{{#each course.tasks.tickets}}
+        <div style= "" class="col s12">
+            <div class="card light-green lighten-5">
+                    <div class="card-content black-text">
+                        <span class="card-title">{{question}}</span>                        
+                        {{#if guess1}}
+                            {{guesses this}}
+                        {{else}}
+                            <input type="text" name="{{question}}" value = "" type="text" class="validate" required>
+                        {{/if}}
+                    </div>
+                {{!-- <div class="card-action">
+                    <a href="#">Clear</a>
+                </div> --}}
+            </div>
+        </div>
+
+{{/each}}
+</div>
+<div class="centerButton">
+    <button type = "submit"  class="waves-effect waves-green btn">end test</button>
+</div>
+</form>
+
+
+{{else}}
+    <h1><p style="margin: 20px;">You already passed this exam</p></h1>
+    <h5><strong><a style="margin: 40px;" href="..">Go to courses</a></strong></h5>
+{{/if}} 

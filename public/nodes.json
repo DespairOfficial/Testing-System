@@ -1,0 +1,11 @@
+{
+  "nodes":[
+		{"id":"JavaScript", "src": "/courses/615b779e868cdcdfdb6b635f"},
+		{"id":"Python", "src": "/courses/615a0175fbdb94c8fa8af538"},
+		{"id":"Programming languages", "src": "/"}
+	],
+	"edges":[
+		{"from": "Programming languages", "to": "JavaScript"},
+		{"from": "Programming languages", "to": "Python"}
+	]
+}

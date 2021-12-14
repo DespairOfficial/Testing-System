@@ -1,0 +1,62 @@
+<h1>Edit {{course.title}}</h1>
+
+<form action="/courses/edit" method="POST">
+    <input type="hidden" name = 'id' value="{{course._id}}">
+    <div class="editMain">
+        <div class="input-field">
+            <input placeholder="Course's name" name="title" id="title" type="text" class="validate" required value="{{course.title}}">
+            <label for="title">Course's name</label>
+            <span class="helper-text" data-error="Enter the name of the course"></span>
+        </div>
+
+        <div class="input-field">
+            <input placeholder="Description" id="description" name = "description" type="text" class="validate" required value="{{course.description}}">
+            <label for="description">Description</label>
+            <span class="helper-text" data-error="Enter the description of the course" ></span>
+        </div>
+
+        <div class="input-field">
+            <input id="image" type="text" name= "image" class="validate" required value="{{course.image}}">
+            <label for="image">URL</label>
+            <span class="helper-text" data-error="Enter the URL of the image"></span>
+        </div>
+    </div>
+    {{#each course.tasks.tickets}}
+    <div class="container editBlock">
+        <div class="input-field">
+            <input id="question" type="text" name= "questions" class="validate" required value="{{question}}">
+            <label for="question">Question</label>
+            <span class="helper-text" data-error="Enter the answer"></span>
+        </div>
+        <div class="input-field">
+            <input id="answer" type="text" name= "answers" class="validate" required value="{{answer}}">
+            <label for="answer">Answer</label>
+            <span class="helper-text" data-error="Enter the answer"></span>
+        </div>
+        {{#if guess1}}
+        <div class="input-field">
+            <input id="guess1" type="text" name= "guess1" class="validate" required value="{{guess1}}">
+            <label for="guess1">guess1</label>
+            <span class="helper-text" data-error="Enter the guess1"></span>
+        </div>
+        {{/if}}
+        {{#if guess2}}
+        <div class="input-field">
+            <input id="guess2" type="text" name= "guess2" class="validate" required value="{{guess2}}">
+            <label for="guess2">guess2</label>
+            <span class="helper-text" data-error="Enter the guess2"></span>
+        </div>
+        {{/if}}
+        {{#if guess3}}
+        <div class="input-field">
+            <input id="guess3" type="text" name= "guess3" class="validate" required value="{{guess3}}">
+            <label for="guess3">guess3</label>
+            <span class="helper-text" data-error="Enter the guess3"></span>
+        </div>
+        {{/if}}
+    </div>
+    {{/each}}
+
+
+    <button class="btn btn-primary">Submit</button>
+</form>
