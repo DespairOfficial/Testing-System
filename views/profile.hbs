@@ -15,17 +15,7 @@
         <h3>Username: {{username}}</h3>
     </div>
 
-	{{#if testResults}}
-	<div class="canvas-container">
-		{{#each testResults}}
-			{{{this}}}
-		{{/each}}
-	</div>
-	{{else}}
-	<div>
-		<h4>No themes learned yet</h4>
-	</div>
-	{{/if}}
+	
 	
 
 
@@ -104,3 +94,18 @@ var radar = new Chart(popCanvas, {
 
 
 </script>
+<div style="display: flex; justify-content: center;">
+	<img src="arrow.png" alt="">
+</div>
+
+{{#if testResults}}
+	<div class="canvas-container">
+		{{#each testResults}}
+			{{{this}}}
+		{{/each}}
+	</div>
+	{{else}}
+	<div>
+		<h4>No themes learned yet</h4>
+	</div>
+{{/if}}
