@@ -1,65 +1,59 @@
-const {Router} = require('express')
+const { Router } = require('express')
 const router = new Router()
-const User = require("../models/user");
-const Course = require("../models/course")
+const User = require('../models/user')
+const Course = require('../models/course')
 
+router.get('/', async (req, res) => {
+	const user = await User.findById('61a5bd16c0d9c938d6642391')
+	const value = await Course.find()
+	const names = []
+	value.forEach((item) => {
+		names.push({
+			name: item.title,
+			id: item._id
+		})
+	})
 
-router.get('/',async (req,res)=>{
+	const userItems = user.grades.items
+	const items = []
+	userItems.forEach((userItem) => {
+		items.push({
+			id: userItem.courseId,
+			completeness: userItem.completeness,
+			integrity: userItem.integrity,
+			skills: userItem.skills
+		})
+	})
 
+	for (let i = 0; i < items.length; i++) {
+		for (let j = 0; j < names.length; j++) {
+			if (String(items[i].id) === String(names[j].id)) {
+				items[i].name = names[j].name
+			}
+		}
+	}
 
-    const user = await User.findById('61a5bd16c0d9c938d6642391')
-    value = await Course.find()
-    names = []
-    value.map((item)=>{
-        names.push({
-            name:  item.title,
-            id: item._id
-        })
-    })
-
-    let userItems = user.grades.items
-    let items = []
-    userItems.map( (userItem) =>{
-        items.push({
-            id: userItem.courseId,
-            completeness: userItem.completeness,
-            integrity: userItem.integrity,
-            skills: userItem.skills
-        })
-    })
-
-
-
-    for(let i=0; i<items.length;i++){
-        for(let j=0; j<names.length;j++){
-            if(String(items[i].id) == String(names[j].id)){
-                items[i].name = names[j].name
-            }
-        }
-    }
-
-    avgCompletness = 0
-    avgIntegrity= 0
-    avgSkills = 0
-    len = user.grades.items.length
-    for(let i=0; i <len;i++)
-    {
-        avgCompletness+=user.grades.items[i].completeness
-        avgIntegrity+=user.grades.items[i].integrity
-        avgSkills+=user.grades.items[i].skills
-    }
-    avgCompletness = avgCompletness/len
-    avgIntegrity= avgIntegrity/len
-    avgSkills=  avgSkills/len
-    let username = user.name
-    let isCertificate = false
-    let avgRate = (avgSkills+avgIntegrity+avgCompletness) /3
-    if(( avgRate >= 0.6) && (user.grades.items.length==value.length)){
-        isCertificate = true
-    }
-    testResults = []
-    items.map((item)=>{
-        testResults.push(`
+	let avgCompletness = 0
+	let avgIntegrity = 0
+	let avgSkills = 0
+	const len = user.grades.items.length
+	for (let i = 0; i < len; i++) {
+		avgCompletness += user.grades.items[i].completeness
+		avgIntegrity += user.grades.items[i].integrity
+		avgSkills += user.grades.items[i].skills
+	}
+	avgCompletness = avgCompletness / len
+	avgIntegrity = avgIntegrity / len
+	avgSkills = avgSkills / len
+	const username = user.name
+	let isCertificate = false
+	let avgRate = (avgSkills + avgIntegrity + avgCompletness) / 3
+	if ((avgRate >= 0.6) && (user.grades.items.length === value.length)) {
+		isCertificate = true
+	}
+	const testResults = []
+	items.forEach((item) => {
+		testResults.push(`
             <div style="display: flex; flex-direction: column;">
                 <p><h2 style="text-align:center"><a href="/courses/${item.id}">${item.name}</a></h2></p>
             
@@ -127,31 +121,34 @@ router.get('/',async (req,res)=>{
         
             </script>
         `)
-    })
-    
-    
-    
-    avgCompletness = avgCompletness.toFixed(2)
-    avgIntegrity = avgIntegrity.toFixed(2)
-    avgSkills = avgSkills.toFixed(2)
-    avgRate = avgRate.toFixed(2)
-    percent = String(avgRate*100 ) + '%'
+	})
 
+	avgCompletness = avgCompletness.toFixed(2)
+	avgIntegrity = avgIntegrity.toFixed(2)
+	avgSkills = avgSkills.toFixed(2)
+	avgRate = avgRate.toFixed(2)
+	const percent = String(avgRate * 100) + '%'
 
-    var today = new Date();
+	const today = new Date()
 
-    var date = today.getFullYear()+'-'+(today.getMonth()+1)+'-'+today.getDate();
+	const date = today.getFullYear() + '-' + (today.getMonth() + 1) + '-' + today.getDate()
 
-    var time = today.getHours() + ":" + today.getMinutes() + ":" + today.getSeconds();
+	const dateTime = date
 
-    var dateTime = date;
+	res.render('profile', {
+		title: 'Profile',
+		isProfile: true,
+		avgCompletness,
+		avgIntegrity,
+		avgSkills,
+		avgRate,
+		username,
+		isCertificate,
+		testResults,
+		percent,
+		dateTime
 
-    res.render('profile',{
-        title:'Profile',
-        isProfile: true,
-        avgCompletness,avgIntegrity,avgSkills,avgRate, username, isCertificate, testResults, percent,dateTime
-        
-    })
+	})
 })
 
 module.exports = router

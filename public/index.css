@@ -180,3 +180,9 @@ input[type="text"]{
 li a{
     font-size: 1.5rem;
 }
+
+.borderline{
+    border: #333;
+    border-width: 3px;
+    border-radius: 1px;
+}
